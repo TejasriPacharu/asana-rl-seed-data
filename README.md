@@ -2,6 +2,9 @@
 
 This repo builds a realistic Asana-like workspace for RL evaluation. It seeds a SQLite database with organizations, departments, teams, projects, tasks, and supporting entities using real-world patterns (names from Census/SSA, project/section names from Asana templates, task patterns from public GitHub issues).
 
+## Documentation link
+https://docs.google.com/document/d/18WEUC59ssOUzjNQ7ZHBHeTrtl7gYZvFdCLCieRVSdf0/edit?usp=sharing
+
 ## What's here
 - `schema.sql` — full SQLite DDL for all entities (orgs, departments, teams, projects, tasks, custom fields, tags, approvals, etc.).
 - `src/main.py` — entry point; parses CLI args, applies schema, runs the methodology-based generator.
