@@ -96,7 +96,7 @@ The codebase includes `src/utils/llm_client.py` as a fallback analysis tool, but
 
 ## How to run
 - Install deps: `pip install -r requirements.txt`
-- Run main: `python src/main.py --users 5000 --organizations 1 --seed 42`
+- Run main: `python src/main.py --users 5000 --seed 42`
 - For a small smoke test: `python src/main.py --minimal`
 - Optional flags: `--tasks-per-user`, `--history-months`, `--output` for DB path, `--verbose` for detailed logs.
 - Output appears at `output/asana_simulation.sqlite` (or your `--output`).
