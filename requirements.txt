@@ -1,0 +1,22 @@
+# Core dependencies
+python-dotenv>=1.0.0
+faker>=22.0.0
+tqdm>=4.66.0
+
+# Database
+# SQLite is built-in to Python
+
+# HTTP requests (for scraping)
+requests>=2.31.0
+
+# Data processing
+pandas>=2.0.0
+
+# Optional: LLM integration
+anthropic>=0.18.0
+
+# Optional: Data validation
+pydantic>=2.5.0
+
+# Logging
+colorlog>=6.8.0

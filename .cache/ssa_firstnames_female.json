@@ -1,0 +1,322 @@
+[
+  {
+    "name": "Olivia",
+    "weight": 4.75
+  },
+  {
+    "name": "Emma",
+    "weight": 4.52
+  },
+  {
+    "name": "Charlotte",
+    "weight": 3.89
+  },
+  {
+    "name": "Amelia",
+    "weight": 3.67
+  },
+  {
+    "name": "Sophia",
+    "weight": 3.45
+  },
+  {
+    "name": "Isabella",
+    "weight": 3.23
+  },
+  {
+    "name": "Ava",
+    "weight": 3.01
+  },
+  {
+    "name": "Mia",
+    "weight": 2.89
+  },
+  {
+    "name": "Evelyn",
+    "weight": 2.67
+  },
+  {
+    "name": "Luna",
+    "weight": 2.45
+  },
+  {
+    "name": "Harper",
+    "weight": 2.23
+  },
+  {
+    "name": "Sofia",
+    "weight": 2.12
+  },
+  {
+    "name": "Camila",
+    "weight": 2.01
+  },
+  {
+    "name": "Eleanor",
+    "weight": 1.9
+  },
+  {
+    "name": "Elizabeth",
+    "weight": 1.78
+  },
+  {
+    "name": "Violet",
+    "weight": 1.67
+  },
+  {
+    "name": "Scarlett",
+    "weight": 1.56
+  },
+  {
+    "name": "Emily",
+    "weight": 1.45
+  },
+  {
+    "name": "Hazel",
+    "weight": 1.34
+  },
+  {
+    "name": "Lily",
+    "weight": 1.23
+  },
+  {
+    "name": "Abigail",
+    "weight": 1.15
+  },
+  {
+    "name": "Madison",
+    "weight": 1.1
+  },
+  {
+    "name": "Ella",
+    "weight": 1.05
+  },
+  {
+    "name": "Avery",
+    "weight": 1.0
+  },
+  {
+    "name": "Chloe",
+    "weight": 0.95
+  },
+  {
+    "name": "Penelope",
+    "weight": 0.9
+  },
+  {
+    "name": "Aria",
+    "weight": 0.85
+  },
+  {
+    "name": "Grace",
+    "weight": 0.8
+  },
+  {
+    "name": "Zoey",
+    "weight": 0.78
+  },
+  {
+    "name": "Nora",
+    "weight": 0.76
+  },
+  {
+    "name": "Riley",
+    "weight": 0.74
+  },
+  {
+    "name": "Hannah",
+    "weight": 0.72
+  },
+  {
+    "name": "Lillian",
+    "weight": 0.7
+  },
+  {
+    "name": "Aurora",
+    "weight": 0.68
+  },
+  {
+    "name": "Savannah",
+    "weight": 0.66
+  },
+  {
+    "name": "Brooklyn",
+    "weight": 0.64
+  },
+  {
+    "name": "Victoria",
+    "weight": 0.62
+  },
+  {
+    "name": "Natalie",
+    "weight": 0.6
+  },
+  {
+    "name": "Leah",
+    "weight": 0.58
+  },
+  {
+    "name": "Zoe",
+    "weight": 0.56
+  },
+  {
+    "name": "Audrey",
+    "weight": 0.54
+  },
+  {
+    "name": "Stella",
+    "weight": 0.52
+  },
+  {
+    "name": "Claire",
+    "weight": 0.5
+  },
+  {
+    "name": "Bella",
+    "weight": 0.48
+  },
+  {
+    "name": "Lucy",
+    "weight": 0.46
+  },
+  {
+    "name": "Anna",
+    "weight": 0.44
+  },
+  {
+    "name": "Samantha",
+    "weight": 0.42
+  },
+  {
+    "name": "Caroline",
+    "weight": 0.4
+  },
+  {
+    "name": "Sarah",
+    "weight": 0.38
+  },
+  {
+    "name": "Ashley",
+    "weight": 0.36
+  },
+  {
+    "name": "Jessica",
+    "weight": 0.34
+  },
+  {
+    "name": "Amanda",
+    "weight": 0.32
+  },
+  {
+    "name": "Jennifer",
+    "weight": 0.3
+  },
+  {
+    "name": "Michelle",
+    "weight": 0.28
+  },
+  {
+    "name": "Rachel",
+    "weight": 0.26
+  },
+  {
+    "name": "Lauren",
+    "weight": 0.24
+  },
+  {
+    "name": "Nicole",
+    "weight": 0.22
+  },
+  {
+    "name": "Stephanie",
+    "weight": 0.2
+  },
+  {
+    "name": "Rebecca",
+    "weight": 0.18
+  },
+  {
+    "name": "Katherine",
+    "weight": 0.16
+  },
+  {
+    "name": "Maria",
+    "weight": 0.55
+  },
+  {
+    "name": "Sofia",
+    "weight": 0.5
+  },
+  {
+    "name": "Valentina",
+    "weight": 0.45
+  },
+  {
+    "name": "Isabella",
+    "weight": 0.4
+  },
+  {
+    "name": "Camila",
+    "weight": 0.35
+  },
+  {
+    "name": "Gabriela",
+    "weight": 0.3
+  },
+  {
+    "name": "Lucia",
+    "weight": 0.25
+  },
+  {
+    "name": "Elena",
+    "weight": 0.2
+  },
+  {
+    "name": "Mei",
+    "weight": 0.15
+  },
+  {
+    "name": "Yuki",
+    "weight": 0.12
+  },
+  {
+    "name": "Priya",
+    "weight": 0.1
+  },
+  {
+    "name": "Ananya",
+    "weight": 0.08
+  },
+  {
+    "name": "Fatima",
+    "weight": 0.18
+  },
+  {
+    "name": "Aisha",
+    "weight": 0.14
+  },
+  {
+    "name": "Layla",
+    "weight": 0.12
+  },
+  {
+    "name": "Zara",
+    "weight": 0.1
+  },
+  {
+    "name": "Sakura",
+    "weight": 0.06
+  },
+  {
+    "name": "Hana",
+    "weight": 0.05
+  },
+  {
+    "name": "Yuna",
+    "weight": 0.04
+  },
+  {
+    "name": "Mina",
+    "weight": 0.03
+  }
+]
