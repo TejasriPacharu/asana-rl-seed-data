@@ -46,7 +46,7 @@ CREATE TABLE teams (
     description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (organization_id) REFERENCES organizations(organization_id),
-    FOREIGN KEY (department_id) REFERENCES departments(department_id),
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
 
 -- ============================================

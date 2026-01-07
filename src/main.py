@@ -89,13 +89,6 @@ Examples:
     )
     
     parser.add_argument(
-        "--organizations", "-org",
-        type=int,
-        default=None,
-        help="Number of organizations to generate (default: from .env or 3)"
-    )
-    
-    parser.add_argument(
         "--history-months", "-m",
         type=int,
         default=None,
@@ -158,12 +151,12 @@ def main():
     # Determine configuration
     if args.minimal:
         num_users = 100
-        num_organizations = 2
+        num_organizations = 1
         tasks_per_user = 5
         history_months = 2
     else:
         num_users = args.users or int(os.getenv("NUM_USERS", 5000))
-        num_organizations = args.organizations or int(os.getenv("NUM_ORGANIZATIONS", 3))
+        num_organizations = 1
         tasks_per_user = args.tasks_per_user or int(os.getenv("TASKS_PER_USER", 10))
         history_months = args.history_months or int(os.getenv("HISTORY_MONTHS", 6))
     
@@ -179,7 +172,6 @@ def main():
     schema_path = script_dir / "schema.sql"
     
     logger.info(f"Configuration:")
-    logger.info(f"  Organizations: {num_organizations}")
     logger.info(f"  Users: {num_users:,}")
     logger.info(f"  Tasks per user: {tasks_per_user}")
     logger.info(f"  History months: {history_months}")
