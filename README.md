@@ -29,6 +29,10 @@ This repo builds a realistic Asana-like workspace for RL evaluation. It seeds a 
 - `src/utils/` — database wrapper, date helpers, validation, optional LLM helper; `__init__.py` exports `Database`.
 - `.cache/` — scraper caches (created at runtime).
 
+## Screenshot
+User table creation preview:
+![Users table](screenshots/users_table.png)
+
 ## Quick start
 ```bash
 pip install -r requirements.txt
