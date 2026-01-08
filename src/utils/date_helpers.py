@@ -94,7 +94,7 @@ def weighted_day_of_week(dt: datetime) -> datetime:
     if random.random() > weights[day]:
         # Shift to a more likely day
         shift = random.choice([-1, 1, 2]) if day > 2 else random.choice([0, 1])
-        new_day = (day + shift) % 5  # Keep in weekday range
+        new_day = (day + shift) % 5
         delta = new_day - day
         dt = dt + timedelta(days=delta)
     
@@ -112,7 +112,6 @@ def avoid_weekends(d: date, probability: float = 0.85) -> date:
         Adjusted date (moved to Monday if was weekend)
     """
     if random.random() < probability:
-        # 5=Saturday, 6=Sunday
         if d.weekday() == 5:
             d = d + timedelta(days=2)
         elif d.weekday() == 6:
@@ -225,7 +224,7 @@ def generate_completion_date(
     
     # Log-normal distribution for completion time
     # Median ~3 days, can range from hours to 2 weeks
-    log_mean = 1.1  # ln(3)
+    log_mean = 1.1 
     log_std = 0.8
     
     days_to_complete = random.lognormvariate(log_mean, log_std)

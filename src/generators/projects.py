@@ -2,6 +2,12 @@
 Project generator for Asana simulation.
 
 Generates projects with proper temporal consistency.
+
+Temporal Consistency Rules:
+- created_at >= team.created_at
+- start_date = created_at.date()
+- due_date >= start_date
+- updated_at >= created_at AND updated_at <= min(due_date, current_time)
 """
 
 import uuid
@@ -34,6 +40,12 @@ def generate_projects(
 ) -> Dict[str, Dict]:
     """
     Generate projects for teams.
+    
+    Temporal Consistency:
+    - created_at >= team.created_at (project created after team)
+    - start_date = created_at.date() (project starts when created)
+    - due_date >= start_date (due date after start)
+    - updated_at between created_at and min(due_date, current_time)
     
     Args:
         db: Database instance
@@ -114,17 +126,20 @@ def generate_projects(
             
             # Due date: sprints use 2-week (59.1%)
             if proj_type == "sprint" and random.random() < TWO_WEEK_SPRINT_RATE:
-                due = start_date + timedelta(days=14)
+                due_date = start_date + timedelta(days=14)
             else:
-                due = start_date + timedelta(days=random.randint(14, 90))
+                due_date = start_date + timedelta(days=random.randint(14, 90))
             
-            # updated_at: between start_date and current_time (temporal consistency)
-            days_since_start = (current_time.date() - start_date).days
-            if days_since_start > 0:
-                update_days = random.randint(0, days_since_start)
-                updated_at = created_at + timedelta(days=update_days)
-                if updated_at > current_time:
-                    updated_at = current_time
+            # updated_at: MUST be between created_at and min(due_date, current_time)
+            # This ensures updated_at never exceeds the project's due date
+            due_datetime = datetime.combine(due_date, datetime.max.time())
+            latest_update = min(due_datetime, current_time)
+            
+            if latest_update > created_at:
+                # Random time between created_at and latest_update
+                delta_seconds = (latest_update - created_at).total_seconds()
+                random_seconds = random.random() * delta_seconds
+                updated_at = created_at + timedelta(seconds=random_seconds)
             else:
                 updated_at = created_at
             
@@ -139,7 +154,7 @@ def generate_projects(
                 "is_public": random.random() < 0.90,
                 "project_type": proj_type,
                 "start_date": start_date.strftime("%Y-%m-%d"),
-                "due_date": due.strftime("%Y-%m-%d"),
+                "due_date": due_date.strftime("%Y-%m-%d"),
                 "created_at": created_at.strftime("%Y-%m-%d %H:%M:%S"),
                 "updated_at": updated_at.strftime("%Y-%m-%d %H:%M:%S"),
                 "created_by_id": creator,
@@ -151,4 +166,3 @@ def generate_projects(
     logger.info(f"  Generated {len(projects)} projects")
     
     return {proj["project_id"]: proj for proj in projects}
-

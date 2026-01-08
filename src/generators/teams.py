@@ -1,7 +1,7 @@
 """
 Team generator for Asana simulation.
 
-Generates teams for each department.
+Generates teams for each department with unique names.
 """
 
 import uuid
@@ -30,6 +30,10 @@ def generate_teams(
     """
     Generate teams for departments.
     
+    Each team has a unique name within its department.
+    If more teams are needed than base names available, 
+    numbered suffixes are added (e.g., "Backend Team 2").
+    
     Args:
         db: Database instance
         departments: Dictionary of department_id -> department data
@@ -48,13 +52,22 @@ def generate_teams(
     
     OPTIMAL_TEAM_SIZE = (5, 7)
     
+    # Department-specific team names
     TEAM_NAMES = {
-        "Product Engineering": ["Backend", "Frontend", "Mobile", "Platform", "Infrastructure",
-                               "DevOps", "Security", "QA", "Data", "ML/AI"],
-        "Marketing": ["Content", "Demand Gen", "Product Marketing", "Brand", "Events", "Growth"],
-        "Sales/HR/Customer Success": ["Enterprise Sales", "SMB Sales", "Customer Success",
-                                      "Support", "Recruiting", "People Ops"],
-        "Upper Management": ["Executive", "Strategy", "Operations", "Finance"]
+        "Product Engineering": [
+            "Backend", "Frontend", "Mobile", "Platform", "Infrastructure",
+            "DevOps", "Security", "QA", "Data", "ML/AI"
+        ],
+        "Marketing": [
+            "Content", "Demand Gen", "Product Marketing", "Brand", "Events", "Growth"
+        ],
+        "Sales/HR/Customer Success": [
+            "Enterprise Sales", "SMB Sales", "Customer Success",
+            "Support", "Recruiting", "People Ops"
+        ],
+        "Upper Management": [
+            "Executive", "Strategy", "Operations", "Finance"
+        ]
     }
     
     teams = {}
@@ -70,34 +83,48 @@ def generate_teams(
             continue
         
         # Calculate number of teams based on optimal size
-        avg_size = sum(OPTIMAL_TEAM_SIZE) // 2
+        avg_size = sum(OPTIMAL_TEAM_SIZE) // 2  # 6
         num_teams = max(1, len(user_ids) // avg_size)
         
-        # Get team names for this department
-        names = TEAM_NAMES.get(dept["name"], TEAM_NAMES["Product Engineering"])
+        # Get team names for this department type
+        base_names = TEAM_NAMES.get(dept["name"], TEAM_NAMES["Product Engineering"])
+        
+        # Generate unique team names for this department
+        team_names_to_create = []
         
         for i in range(num_teams):
+            base_name = base_names[i % len(base_names)]
+            iteration = i // len(base_names)
+            
+            if iteration == 0:
+                team_name = f"{base_name} Team"
+            else:
+                # Add number suffix for subsequent iterations
+                team_name = f"{base_name} Team {iteration + 1}"
+            
+            team_names_to_create.append((base_name, team_name))
+        
+        # Create team records
+        for base_name, team_name in team_names_to_create:
             team_id = generate_uuid()
-            name = names[i % len(names)]
             
             # Team created after organization (temporal consistency)
-            # Spread teams over organization history
-            days_after_org = random.randint(1, (datetime.now() - org_created).days)
+            max_days = max(1, (datetime.now() - org_created).days)
+            days_after_org = random.randint(1, max_days)
             team_created = org_created + timedelta(days=days_after_org)
             
             team = {
                 "team_id": team_id,
                 "organization_id": org_id,
                 "department_id": dept_id,
-                "name": f"{name} Team",
-                "description": f"The {name} team within {dept['name']}.",
+                "name": team_name,
+                "description": f"The {base_name} team within {dept['name']}.",
                 "created_at": team_created.strftime("%Y-%m-%d %H:%M:%S"),
             }
             teams[team_id] = team
     
     # Insert into database
     db.insert_dicts("teams", list(teams.values()))
-    logger.info(f"  Generated {len(teams)} teams")
+    logger.info(f"  Generated {len(teams)} teams (unique names per department)")
     
     return teams
-

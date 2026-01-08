@@ -44,6 +44,33 @@ python src/main.py --users 5000 --organizations 1 --seed 42
 - Output: `output/asana_simulation.sqlite` (configurable via `--output`).
 - Flags: `--minimal` for a small dataset; `--verbose` for debug logs; `--tasks-per-user`, `--history-months` to tune volume/history.
 
+## How real-world data is sourced (important clarification)
+
+Although this repository refers to “scrapers”, **no live web scraping is performed at runtime**.
+
+Instead, the project uses a **curated + cached data sourcing approach** to ensure:
+- Reproducibility and deterministic runs
+- Stability (no dependency on external websites or APIs)
+- Legal / ToS compliance
+- Offline, large-scale dataset generation for RL training
+
+### What the “scrapers” actually do
+
+Each scraper module represents a **real-world data source boundary**, not a live crawler.  
+Realistic distributions and patterns are **manually extracted from public sources**, encoded in code, and cached locally (`.cache/`) on first run.
+
+| Module | Live scraping? | Source | Usage |
+|------|---------------|--------|------|
+| CensusSurnameScraper | ❌ No | US Census Bureau (2010 surnames) | Weighted surname distributions |
+| SSAFirstNameScraper | ❌ No | US SSA baby name data (2010s) | Weighted first-name distributions |
+| YCombinatorScraper | ❌ No | Curated YC B2B SaaS companies | Organization names & domains |
+| GitHubIssueScraper | ❌ No | Patterns from public GitHub repos | Realistic task title templates |
+| AsanaTemplateScraper | ❌ No | Public Asana templates | Project & section naming patterns |
+
+No external HTTP requests are required to generate the dataset.  
+All data is local, cached, and fully reproducible under a fixed random seed.
+
+
 ## Why model departments (even though Asana doesn’t have them)
 Enterprise orgs sit between “organization” and “team” with a real structural layer—departments. We include departments to:
 - **Match headcount reality:** B2B SaaS companies split headcount ~40% Eng, 15% Marketing, 35% Sales/HR/CS, 10% Mgmt. Departments let us target those ratios before forming teams.
