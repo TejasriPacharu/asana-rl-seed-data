@@ -90,21 +90,8 @@ Enterprise orgs sit between “organization” and “team” with a real struct
 The codebase includes `src/utils/llm_client.py` as a fallback analysis tool, but the production implementation uses **template-based generation from scraped GitHub patterns** rather than LLM API calls. Here's why:
 
 **Cost & scale:**
-- For 5,000 users × 10 tasks/user = **50,000 tasks**, LLM API calls would be prohibitively expensive
-- At ~$0.25 per 1K tokens (Claude Haiku), generating 50K task names (~20 tokens each) ≈ **$250+ per run**
-- Task descriptions (~100 tokens each) would add **$1,250+** more
-- Total: **$1,500+ per dataset generation** — not feasible for iterative development or large-scale RL training
-
-**Performance & reliability:**
-- LLM API calls introduce latency (100-500ms per call) → **hours of generation time** vs. seconds with templates
-- API rate limits and failures require retry logic and error handling
+- For 5,000 users × 10 tasks/user = **50,000 tasks**, LLM API calls would be prohibitively expensive and time consuming, not feasible for this assignment development but can be integrated for production level. 
 - Template-based generation is **instant, deterministic, and offline-capable**
-
-**Quality & realism:**
-- **GitHub patterns are real:** We scraped 200+ actual issue titles from React, VS Code, and Kubernetes repos
-- Patterns capture authentic phrasing: `"[Bug]: API timeout when processing large payloads"`, `"Implement OAuth for Backend service"`
-- Templates ensure **consistent, realistic patterns** that match real-world task naming conventions
-- LLM-generated names risk inconsistency, hallucination, or patterns that don't match actual Asana usage
 
 **The `llm_client.py` fallback:**
 - Exists for **analysis and experimentation** (e.g., generating descriptions for a small sample)
@@ -117,13 +104,13 @@ The codebase includes `src/utils/llm_client.py` as a fallback analysis tool, but
 - Both approaches are **fast, free, reproducible, and grounded in real-world data**
 
 ## Notes
-- No external keys required; scrapers use cached public datasets.
+- No external keys required; scrapers use cached public datasets in the code.
 - Adjust volumes via CLI flags or env vars (`NUM_USERS`, `NUM_ORGANIZATIONS`, `TASKS_PER_USER`, `HISTORY_MONTHS`, `RANDOM_SEED`).
-- The generated SQLite can be inspected directly or used as seed data for RL environments.
+- The generated SQLite can be inspected directly or used as seed data for RL environments by making more improvements.
 
 ## How to run
 - Install deps: `pip install -r requirements.txt`
 - Run main: `python src/main.py --users 5000 --seed 42`
 - For a small smoke test: `python src/main.py --minimal`
 - Optional flags: `--tasks-per-user`, `--history-months`, `--output` for DB path, `--verbose` for detailed logs.
-- Output appears at `output/asana_simulation.sqlite` (or your `--output`).
+- Output appears at `output/asana_simulation.sqlite`
