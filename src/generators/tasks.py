@@ -325,4 +325,3 @@ def _due_date(created_at: datetime, project_due: date) -> Optional[date]:
 
     # makiing sure that task due date is before project due date
     return min(due, project_due)
-

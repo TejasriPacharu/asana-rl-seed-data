@@ -13,25 +13,9 @@ from typing import Dict, Optional
 from src.scrapers.real_data_scraper import RealDataScraper
 from src.utils.database import Database
 
-# Import separate generators
 from src.generators.organizations import generate_organizations
 from src.generators.departments import generate_departments
-# #region agent log
-import json
-from datetime import datetime
-log_path = "/home/teja/preeh/asana/.cursor/debug.log"
-try:
-    with open(log_path, "a") as f:
-        f.write(json.dumps({"id": "log_import_before", "timestamp": int(datetime.now().timestamp() * 1000), "location": "methodology_generator.py:19", "message": "Before importing generate_users", "data": {}, "sessionId": "debug-session", "runId": "run1", "hypothesisId": "A"}) + "\n")
-except: pass
-# #endregion
 from src.generators.users import generate_users
-# #region agent log
-try:
-    with open(log_path, "a") as f:
-        f.write(json.dumps({"id": "log_import_after", "timestamp": int(datetime.now().timestamp() * 1000), "location": "methodology_generator.py:21", "message": "After importing generate_users", "data": {"import_success": True}, "sessionId": "debug-session", "runId": "run1", "hypothesisId": "A"}) + "\n")
-except: pass
-# #endregion
 from src.generators.teams import generate_teams
 from src.generators.team_memberships import generate_team_memberships
 from src.generators.projects import generate_projects

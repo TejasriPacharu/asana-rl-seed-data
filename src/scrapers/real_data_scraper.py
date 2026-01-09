@@ -1,12 +1,23 @@
 """
-Real-world data scrapers for Asana seed data generation.
+Curated real-world reference datasets for Asana seed data generation.
 
-Scrapes data from documented sources:
-- US Census Bureau: Surname frequency data
-- US Social Security Administration: First name frequency data
-- Y Combinator: Company names
-- GitHub: Issue/task patterns from public repositories
-- Asana Templates: Project and section naming patterns
+IMPORTANT:
+---------
+Despite the term "scraper", this module does NOT perform live web scraping
+at runtime.
+
+Instead, it provides curated, offline datasets derived from real-world
+sources (e.g., US Census, SSA, Y Combinator, GitHub, Asana templates).
+These datasets are embedded directly in code for reproducibility and
+cached locally as JSON files for performance.
+
+Design Rationale:
+- Avoids network dependencies and rate limits
+- Ensures deterministic, reproducible RL environments
+- Preserves real-world distributions and naming patterns
+- Enables auditability and version control of data sources
+
+JSON cache files are treated as derived artifacts, not the source of truth.
 """
 
 import os
@@ -26,18 +37,17 @@ logger = logging.getLogger(__name__)
 
 class CensusSurnameScraper:
     """
-    Scrapes surname data from US Census Bureau.
-    Source: https://www.census.gov/topics/population/genealogy/data/2010_surnames.html
-    
-    The Census Bureau provides frequency data for surnames occurring 100+ times.
+    Provides curated US Census surname frequency data.
+
+    Source:
+    - US Census Bureau (2010 Surname Frequencies)
+    - https://www.census.gov/topics/population/genealogy/data/2010_surnames.html
+
+    NOTE:
+    This class does NOT scrape the Census website at runtime.
+    The data below is a manually curated subset of the published dataset.
     """
-    
-    CENSUS_SURNAMES_URL = "https://www2.census.gov/topics/genealogy/2010surnames/names.zip"
-    CENSUS_TOP1000_URL = "https://www.census.gov/content/dam/Census/topics/population/genealogy/2010surnames/Top1000.xlsx"
-    
-    # Direct CSV data endpoint (more reliable)
-    SURNAMES_CSV_URL = "https://www2.census.gov/topics/genealogy/2010surnames/names.zip"
-    
+
     def __init__(self, cache_dir: str = ".cache"):
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -57,7 +67,7 @@ class CensusSurnameScraper:
                 data = json.load(f)
                 return [(item['name'], item['weight']) for item in data[:limit]]
         
-        logger.info("Scraping surnames from US Census Bureau...")
+        logger.info("Loading curated US Census surname dataset...")
         
         # Census top surnames with approximate percentages based on Census 2010 data
         # Source: https://www.census.gov/topics/population/genealogy/data/2010_surnames.html
@@ -210,14 +220,14 @@ class CensusSurnameScraper:
 
 class SSAFirstNameScraper:
     """
-    Scrapes first name data from US Social Security Administration.
+    Provides curated first name data from US Social Security Administration.
     Source: https://www.ssa.gov/oact/babynames/
     
     SSA provides historical baby name data with frequencies.
+    This class does NOT fetch data from the website at runtime.
+    The dataset below is a manually curated subset derived from the
+    published Census tables and embedded for reproducibility.
     """
-    
-    SSA_NAMES_URL = "https://www.ssa.gov/oact/babynames/names.zip"
-    SSA_NATIONAL_URL = "https://www.ssa.gov/oact/babynames/decades/names2010s.html"
     
     def __init__(self, cache_dir: str = ".cache"):
         self.cache_dir = Path(cache_dir)
@@ -327,13 +337,14 @@ class SSAFirstNameScraper:
 
 class YCombinatorScraper:
     """
-    Scrapes company names from Y Combinator directory.
+    Provides curated company names from Y Combinator directory.
     Source: https://www.ycombinator.com/companies
     
     YC directory provides real B2B SaaS company names.
+    This class does NOT fetch data from the website at runtime.
+    The dataset below is a manually curated subset derived from the
+    published Census tables and embedded for reproducibility.
     """
-    
-    YC_API_URL = "https://www.ycombinator.com/companies"
     
     def __init__(self, cache_dir: str = ".cache"):
         self.cache_dir = Path(cache_dir)
@@ -403,24 +414,14 @@ class YCombinatorScraper:
 
 class GitHubIssueScraper:
     """
-    Scrapes issue/task patterns from public GitHub repositories.
+    Provides curated issue/task patterns from public GitHub repositories.
     Source: GitHub API for popular repositories
     
     Extracts realistic engineering task naming patterns.
+    This class does NOT fetch data from the website at runtime.
+    The dataset below is a manually curated subset derived from the
+    published Census tables and embedded for reproducibility.
     """
-    
-    GITHUB_API = "https://api.github.com"
-    
-    # Popular repos to scrape issues from
-    TARGET_REPOS = [
-        "facebook/react",
-        "microsoft/vscode", 
-        "kubernetes/kubernetes",
-        "vercel/next.js",
-        "tailwindlabs/tailwindcss",
-        "prisma/prisma",
-        "trpc/trpc",
-    ]
     
     def __init__(self, cache_dir: str = ".cache", github_token: str = None):
         self.cache_dir = Path(cache_dir)
@@ -557,13 +558,11 @@ class GitHubIssueScraper:
 
 class AsanaTemplateScraper:
     """
-    Extracts project/section patterns from Asana's public templates.
+    Provides Curated project/section patterns from Asana's public templates, instead of the fetching from website in the runtime.
     Source: https://asana.com/templates
     
     Provides realistic project naming and section structures.
     """
-    
-    TEMPLATES_URL = "https://asana.com/templates"
     
     def __init__(self, cache_dir: str = ".cache"):
         self.cache_dir = Path(cache_dir)
@@ -729,7 +728,12 @@ class RealDataScraper:
         self.asana_templates: Dict = {}
     
     def load_all(self):
-        """Load all scraped data."""
+        """
+        Load all curated reference datasets into memory.
+
+        This method initializes all offline datasets required for realistic
+        seed data generation. No live network requests are performed.
+        """
         logger.info("=" * 60)
         logger.info("LOADING REAL-WORLD DATA SOURCES")
         logger.info("=" * 60)
